@@ -23,7 +23,6 @@ const transactionSchema = new Schema(
     },
     comment: {
       type: String,
-      required: true,
     },
     sum: {
       type: String,
@@ -37,7 +36,6 @@ const transactionSchema = new Schema(
     category: {
       type: String,
       enum: availableCategories,
-      required: false,
     },
     owner: {
       type: Schema.Types.ObjectId,
