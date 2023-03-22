@@ -1,0 +1,406 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Finance-app",
+    "description": "Its API for web aplication Finance-app",
+    "version": "2.2.2"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:4000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Your routes",
+      "description": "Here will be yours other routes"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Create new user.",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Email in use"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "LogIn user",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewUserResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "User not found or all need to send all fields ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout current user",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "$ref": "#components/schemas/LogoutResponse"
+                },
+                "example": {
+                  "message": "Logout success"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not authorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/balance": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update balance",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBalance"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBalance"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "balance is required"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "User not found"
+          }
+        },
+        "description": "Bad Request"
+      },
+      "NewUserRequest": {
+        "required": ["email", "name", "password"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Entony"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "entonymail@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 6 max:infinity",
+            "format": "password",
+            "example": "qwerty12345"
+          }
+        },
+        "description": "New user registration requeest body"
+      },
+      "LoginUserRequest": {
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "entonymail@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password length: min 7 max:32",
+            "format": "password",
+            "example": "qwerty12345"
+          }
+        },
+        "description": "User logIn requeest body"
+      },
+      "NewUserResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token after login",
+            "format": "jwt",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWIwYjM5ZmZkNDAzOWMyNjljNGI1OSIsImlhdCI6MTY3OTQ5NDczOCwiZXhwIjoxNjc5NTgxMTM4fQ.Wv0c7Snp7BU8vlziJ6sV0CzUHOs1bPUqnTK8LZJSqjI"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name only words without numbers and symbols",
+            "example": "Entony"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email with pattern '/^[a-z0-9]+@[a-z]+\n\\.[a-z]{2,3}/'",
+            "example": "entonymail@gmail.com"
+          },
+          "balance": {
+            "type": "number",
+            "description": "User's initial balance or updated",
+            "format": ""
+          }
+        },
+        "description": "User requeest body"
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "description": "User`s data",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "641b0b39ffd4039c269c4b59"
+              },
+              "name": {
+                "type": "string",
+                "example": "Entony"
+              },
+              "password": {
+                "type": "string",
+                "example": "qwerty12345"
+              },
+              "email": {
+                "type": "string",
+                "example": "entonymail@gmail.com"
+              },
+              "balance": {
+                "type": "number",
+                "example": "1200"
+              },
+              "token": {
+                "type": "string",
+                "format": "jwt",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWIwYjM5ZmZkNDAzOWMyNjljNGI1OSIsImlhdCI6MTY3OTQ5NjUzNSwiZXhwIjoxNjc5NTgyOTM1fQ.LrXKRdNnjMFf2kKUxry3b7I0zQ8KUelaOgJpU6XpLXo"
+              },
+              "verify": {
+                "type": "boolean",
+                "example": false
+              },
+              "verificationToken": {
+                "type": "string",
+                "example": "HhOe8ZMLLgmAM5MA3Lxq9"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2023-01-01T14:05:45.533Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2023-03-22T20:10:55.449Z"
+              }
+            }
+          }
+        },
+        "description": "Current user requeest body"
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Logout success"
+          },
+          "description": "Success"
+        }
+      },
+      "UpdateBalance": {
+        "type": "object",
+        "properties": {
+          "balance": {
+            "type": "number",
+            "example": 2100
+          }
+        },
+        "description": "Success"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
