@@ -19,7 +19,7 @@ require('./config/config-passport'); // ????
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/auth', authRouter);
-app.use('/api/user', transactionRouter);
+app.use('/api', transactionRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
