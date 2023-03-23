@@ -1,5 +1,6 @@
 const { requestError } = require("../helpers");
 
+
 function validateBody(schema) {
   const fn = (req, res, next) => {
     const { error } = schema.validate(req.body);
@@ -10,5 +11,6 @@ function validateBody(schema) {
   };
   return fn;
 }
+
 
 module.exports = validateBody;
