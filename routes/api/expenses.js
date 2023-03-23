@@ -1,5 +1,5 @@
 const express = require('express');
-const controllers = require('../../controllers/expenses');
+const controllers = require('../../controllers/expenses/');
 const controllerWrapper = require('../../helpers/controllerWrapper');
 const { validateBody, authenticate } = require('../../middlewares');
 const { schemasTransactions } = require('../../schemas/transactions');
