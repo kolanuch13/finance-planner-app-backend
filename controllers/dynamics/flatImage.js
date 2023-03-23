@@ -3,6 +3,8 @@ async function flatImage(req, res) {
 
   const imageURL = req.file.path;
 
+  // import PersonalPlan
+
   await PersonalPlan.findByIdAndUpdate(owner, { imageURL });
 
   res.json({
