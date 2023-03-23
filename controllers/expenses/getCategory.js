@@ -1,7 +1,16 @@
-// const { Transaction } = require('../../models/transactions');
-// const { requestError } = require('../../helpers');
-// const { schemasTransactions } = require('../../schemas/transactions');
+const availableCategories = [
+  'Products',
+  'Clothing and footwear',
+  'Cafes and restaurants',
+  'Beauty and medicine',
+  'Health',
+  'Transport',
+  'House',
+  'Other',
+];
 
-const getCategory = async (req, res) => {};
+const getCategory = async (req, res) => {
+  res.json(availableCategories);
+};
 
 module.exports = getCategory;

@@ -19,10 +19,11 @@ const transactionSchema = new Schema(
   {
     date: {
       type: String,
-      required: true,
+      required: false,
     },
     comment: {
       type: String,
+      required: false,
     },
     sum: {
       type: String,
@@ -36,6 +37,8 @@ const transactionSchema = new Schema(
     category: {
       type: String,
       enum: availableCategories,
+      default: 'other',
+      required: false,
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -43,7 +46,7 @@ const transactionSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false }
 );
 
 transactionSchema.post('save', handleSaveErrors);

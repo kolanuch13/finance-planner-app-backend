@@ -1,30 +1,23 @@
 const express = require('express');
-const controllers = require('../../controllers/expenses');
+const controllers = require('../../controllers/expenses/');
 const controllerWrapper = require('../../helpers/controllerWrapper');
-// const { validateBody, authenticate } = require('../../middlewares');
-const { validateBody } = require('../../middlewares');
+const { validateBody, authenticate } = require('../../middlewares');
 const { schemasTransactions } = require('../../schemas/transactions');
 
 const router = express.Router();
 
-router.get(
-  '/category',
-  // authenticate,
-  validateBody(schemasTransactions),
-  controllerWrapper(controllers.getCategory)
-);
+router.get('/category', controllerWrapper(controllers.getCategory));
 
 router.get(
   '/dayLimit',
   // authenticate,
-  validateBody(schemasTransactions),
   controllerWrapper(controllers.dayLimitInfo)
 );
 
 router.post(
   '/expense',
-  // authenticate,
-  validateBody(schemasTransactions),
+  authenticate,
+  validateBody(schemasTransactions.addTransactions),
   controllerWrapper(controllers.addExpense)
 );
 
