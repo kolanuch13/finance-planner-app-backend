@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 app.use(express.json());
 
@@ -56,10 +56,39 @@ const updatePersonalPlan = async (req, res) => {
   );
 
   if (!result) {
-    return res.status(404).json({ message: "Запис не знайдено" });
+    return res.status(404).json({ message: 'Запис не знайдено' });
   }
 
   res.json(personalPlan);
 };
 const Personal = { personalPlan, updatePersonalPlan };
 module.exports = Personal;
+
+// router.route('/:owner').put(async (req, res) => {
+//   try {
+//     const {
+//       salary,
+//       passiveIncome,
+//       savings,
+//       cost,
+//       footage,
+//       procent,
+//       year,
+//       month,
+//     } = req.body;
+
+//     const { owner } = req.params; // отримуємо ідентифікатор власника запису з URL
+
+//     const personalPlan = await PersonalPlan.findOneAndUpdate(
+//       { owner: owner }, // умова для пошуку запису за полем owner
+//       {
+//         salary: salary,
+//         passiveIncome: passiveIncome,
+//         savings: savings,
+//         cost: cost,
+//         footage: footage,
+//         procent: procent,
+//         year: year,
+//         month: month,
+//       },
+//       { new: true } // параметр для повернення оновленого запису замі

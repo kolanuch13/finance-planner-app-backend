@@ -1,5 +1,4 @@
-const { Schema, model } = require("mongoose");
-// const { handleSaveErrors } = require("../helpers"); ???
+const { Schema, model } = require('mongoose');
 
 const personalSchema = new Schema(
   {
@@ -11,11 +10,15 @@ const personalSchema = new Schema(
     procent: { type: Number, required: true },
     year: { type: Number },
     month: { type: Number },
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
+    image: {
+      data: Buffer,
+      contentType: String,
+    },
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   { versionKey: false, timestamps: true }
 );
 
-const Personal = model("personal", personalSchema);
+const Personal = model('personal', personalSchema);
 
 module.exports = { Personal };

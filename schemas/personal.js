@@ -1,13 +1,14 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const personalSchema = Joi.object({
-  salary: Joi.string().required(),
-  savings: Joi.string().required(),
-  cost: Joi.string().required(),
-  footage: Joi.string().required(),
-  procent: Joi.string().required(),
-  year: Joi.string(),
-  month: Joi.string(),
+  salary: Joi.number().required(),
+  savings: Joi.number().required(),
+  cost: Joi.number().required(),
+  footage: Joi.number().required(),
+  procent: Joi.number().required(),
+  passiveIncome: Joi.number().required(),
+  year: Joi.number(),
+  month: Joi.number(),
 });
 
 // const personalSchema = {

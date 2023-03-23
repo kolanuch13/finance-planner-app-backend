@@ -1,12 +1,19 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { requestError } = require("../../helpers/");
+const { controllerWrapper } = require('../../helpers/');
+const { personalSchema } = require('../../schemas/personal');
+const Personal = require('../../controllers/personal/personal');
+const addPersonalPlan = require('../../controllers/personal/addPersonalPlan');
+const { validateBody } = require('../../middlewares');
 
-const Personal = require("../../controllers/personal/personal");
+router.post('/pre', validateBody(personalSchema), Personal.personalPlan);
+router.post(
+  '/',
+  validateBody(personalSchema),
+  controllerWrapper(addPersonalPlan)
+);
 
-router.post("/pre", Personal.personalPlan, requestError);
-router.post("/", Personal.personalPlan, requestError);
-router.get("/", Personal.personalPlan, requestError);
-router.put("/", Personal.updatePersonalPlan, requestError);
+router.get('/', Personal.personalPlan);
+router.put('/', Personal.updatePersonalPlan);
 
 module.exports = router;

@@ -1,13 +1,13 @@
-const { DateTime } = require("luxon");
+const { DateTime } = require('luxon');
 
-const { requestError } = require("../../helpers");
+const { requestError } = require('../../helpers');
 
 async function chartInfo(req, res) {
   const { _id } = req.user;
 
   // last year information
   const lastYear = DateTime.now()
-    .setZone("America/New_York")
+    .setZone('America/New_York')
     .minus({ years: 1 })
     .toISO();
 
@@ -15,7 +15,7 @@ async function chartInfo(req, res) {
     {
       $match: {
         owner: _id,
-        type: "expense",
+        type: 'expense',
         date: {
           $gte: lastYear,
           $lt: new Date(),
@@ -24,12 +24,12 @@ async function chartInfo(req, res) {
     },
     {
       $group: {
-        _id: "$category",
-        totalSum: { $sum: "$sum" },
+        _id: '$category',
+        totalSum: { $sum: '$sum' },
       },
     },
     {
-      $project: { _id: 0, category: "$_id.category", totalSum: "$totalSum" },
+      $project: { _id: 0, category: '$_id.category', totalSum: '$totalSum' },
     },
   ]);
   if (!expenses) {
@@ -39,7 +39,7 @@ async function chartInfo(req, res) {
     {
       $match: {
         owner: _id,
-        type: "income",
+        type: 'income',
         date: {
           $gte: lastYear,
           $lt: new Date(),
@@ -48,12 +48,12 @@ async function chartInfo(req, res) {
     },
     {
       $group: {
-        _id: "$category",
-        totalSum: { $sum: "$sum" },
+        _id: '$category',
+        totalSum: { $sum: '$sum' },
       },
     },
     {
-      $project: { _id: 0, category: "$_id.category", totalSum: "$totalSum" },
+      $project: { _id: 0, category: '$_id.category', totalSum: '$totalSum' },
     },
   ]);
   if (!incomes) {
@@ -73,7 +73,7 @@ async function chartInfo(req, res) {
   const start = DateTime.fromISO(nowDate.toISOString());
   const end = DateTime.fromISO(endDate);
 
-  const { years, months } = end.diff(start, ["months", "year"]).toObject();
+  const { years, months } = end.diff(start, ['months', 'year']).toObject();
 
   // acumulated in %
 
