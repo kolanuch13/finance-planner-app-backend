@@ -1,18 +1,18 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
-const { handleSaveErrors } = require("../helpers");
+const { handleSaveErrors } = require('../helpers');
 
-const category = ["expense", "income"];
+const category = ['expense', 'income'];
 
 const availableCategories = [
-  "products",
-  "clothing and footwear",
-  "cafes and restaurants",
-  "beauty and medicine",
-  "health",
-  "transport",
-  "house",
-  "other",
+  'products',
+  'clothing and footwear',
+  'cafes and restaurants',
+  'beauty and medicine',
+  'health',
+  'transport',
+  'house',
+  'other',
 ];
 
 const transactionSchema = new Schema(
@@ -23,7 +23,6 @@ const transactionSchema = new Schema(
     },
     comment: {
       type: String,
-      required: true,
     },
     sum: {
       type: String,
@@ -37,19 +36,18 @@ const transactionSchema = new Schema(
     category: {
       type: String,
       enum: availableCategories,
-      required: false,
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
       required: true,
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-transactionSchema.post("save", handleSaveErrors);
+transactionSchema.post('save', handleSaveErrors);
 
-const Transactions = model("statistic", transactionSchema);
+const Transaction = model('transaction', transactionSchema);
 
-module.exports = { Transactions };
+module.exports = { Transaction };
