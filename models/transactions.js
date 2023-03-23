@@ -1,0 +1,53 @@
+const { Schema, model } = require('mongoose');
+
+const { handleSaveErrors } = require('../helpers');
+
+const category = ['expense', 'income'];
+
+const availableCategories = [
+  'products',
+  'clothing and footwear',
+  'cafes and restaurants',
+  'beauty and medicine',
+  'health',
+  'transport',
+  'house',
+  'other',
+];
+
+const transactionSchema = new Schema(
+  {
+    date: {
+      type: String,
+      required: true,
+    },
+    comment: {
+      type: String,
+    },
+    sum: {
+      type: String,
+      required: true,
+    },
+    categoryType: {
+      type: String,
+      enum: category,
+      required: true,
+    },
+    category: {
+      type: String,
+      enum: availableCategories,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
+  },
+  { versionKey: false, timestamps: true }
+);
+
+transactionSchema.post('save', handleSaveErrors);
+
+const Transaction = model('transaction', transactionSchema);
+
+module.exports = { Transaction };
