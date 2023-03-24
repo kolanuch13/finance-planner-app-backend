@@ -2,7 +2,6 @@ const { DateTime } = require('luxon');
 
 const { User } = require('../../models/users');
 
-
 const { requestError } = require('../../helpers');
 
 async function chartInfo(req, res) {
