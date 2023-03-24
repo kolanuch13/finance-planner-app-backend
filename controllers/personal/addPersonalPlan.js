@@ -12,7 +12,7 @@ const addPersonalPlan = async (req, res) => {
     footage,
     owner,
   });
-
+ 
   res.status(201).json({
     salary: result.salary,
     passiveIncome: result.passiveIncome,
