@@ -10,19 +10,19 @@ router.get('/category', controllerWrapper(controllers.getCategory));
 
 router.get(
   '/dayLimit',
-  // authenticate,
+  authenticate,
   controllerWrapper(controllers.dayLimitInfo)
 );
 
 router.post(
-  '/expense',
+  '/transaction',
   authenticate,
   validateBody(schemasTransactions.addTransactions),
   controllerWrapper(controllers.addExpense)
 );
 
 router.patch(
-  '/expense/:transactionId',
+  '/transaction/:transactionId',
   authenticate,
   isValidId,
   validateBody(schemasTransactions.addTransactions),
@@ -30,7 +30,7 @@ router.patch(
 );
 
 router.delete(
-  '/expense/:transactionId',
+  '/transaction/:transactionId',
   authenticate,
   isValidId,
   controllerWrapper(controllers.removeExpense)
