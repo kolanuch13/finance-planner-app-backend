@@ -16,8 +16,8 @@
       "description": "Authorization endpoints"
     },
     {
-      "name": "Your routes",
-      "description": "Here will be yours other routes"
+      "name": "Dynamic",
+      "description": "Dynamic endpoints"
     }
   ],
   "paths": {
@@ -237,6 +237,154 @@
           }
         ]
       }
+    },
+    "/dynamic/chart": {
+      "get": {
+        "tags": ["Dynamic"],
+        "summary": "Get information about customers savings for chart",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetChart"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/dynamic/statistic": {
+      "get": {
+        "tags": ["Dynamic"],
+        "summary": "Get information about customers savings per month for statistic",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetStatistic"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/dynamic/flatImage": {
+      "patch": {
+        "tags": ["Dynamic"],
+        "summary": "Add or change image of flat",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadImageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -393,7 +541,107 @@
           }
         },
         "description": "Success"
-      }
+      },
+      "GetChart": {
+        "type": "object",
+        "properties": {
+          "lastYearInfo": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": {
+                  "type": "string",
+                  "example": "January"
+                },
+                "expenses": {
+                  "type": "number",
+                  "example": 2100
+                },
+                "incomes": {
+                  "type": "number",
+                  "example": 2100
+                },
+                "acumulated": {
+                  "type": "number",
+                  "example": 2100
+                }
+              }
+            }
+          },
+          "timeIsLeft": {
+            "type": "object",
+            "properties": {
+              "year": {
+                "type": "number",
+                "example": 2
+              },
+              "month": {
+                "type": "number",
+                "example": 12
+              }
+            }
+          },
+          "acumulatedAsPercentage": {
+            "type": "number",
+            "example": 28
+          },
+          "acumulatedMoney": {
+            "type": "number",
+            "example": 2100
+          },
+          "acumulatedSqMeters": {
+            "type": "number",
+            "example": 28
+          },
+          "leftAcumulatedMoneyToMeter": {
+            "type": "number",
+            "example": 2000
+          }
+        },
+        "description": "Success"
+      },
+      "GetStatistic": {
+        "type": "object",
+        "properties": {
+          "incomeSumPerSelectedMonth": {
+            "type": "number",
+            "example": 28000
+          },
+          "expenseSumPerSelectedMonth": {
+            "type": "number",
+            "example": 21000
+          },
+          "acumulatedSumPerSelectedMonth": {
+            "type": "number",
+            "example": 7000
+          },
+          "planMoneyPerMonth": {
+            "type": "number",
+            "example": 10000
+          },
+          "percentagePlanPerMonth": {
+            "type": "number",
+            "example": 20
+          }
+        },
+        "description": "Success"
+      },
+        "UploadImageRequest": {
+        "type": "string",
+        "format": "binary",
+         "description": "Flat image"
+        },
+        "UploadImageResponse":{
+          "type": "object",
+          "properties": {
+            "imageURL": {
+          "type": "string",
+          "example": "http://res.cloudinary.com/scfsdcsd/image/upload/vsgfdfgds/sfcsdcfs.png"
+        }
+          }
+        } 
+      
     },
     "securitySchemes": {
       "bearerAuth": {
