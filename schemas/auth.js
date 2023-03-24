@@ -1,6 +1,7 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
-const emailRegexp = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+const emailRegexp =
+  /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$/;
 
 const registerSchema = Joi.object({
   name: Joi.string().required(),
