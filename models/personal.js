@@ -14,7 +14,7 @@ const personalSchema = new Schema(
       data: Buffer,
       contentType: String,
     },
-    owner: { type: Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: Schema.Types.ObjectId, ref: 'user' },
   },
   { versionKey: false, timestamps: true }
 );

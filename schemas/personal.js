@@ -11,11 +11,4 @@ const personalSchema = Joi.object({
   month: Joi.number(),
 });
 
-// const personalSchema = {
-//   registerSchema,
-//   loginSchema,
-//   subscriptionSchema,
-//   verifyEmailSchema,
-// };
-
 module.exports = { personalSchema };
