@@ -1,7 +1,7 @@
 const express = require('express');
 const controllers = require('../../controllers/expenses/');
 const controllerWrapper = require('../../helpers/controllerWrapper');
-const { validateBody, authenticate } = require('../../middlewares');
+const { validateBody, authenticate, isValidId } = require('../../middlewares');
 const { schemasTransactions } = require('../../schemas/transactions');
 
 const router = express.Router();
@@ -22,16 +22,17 @@ router.post(
 );
 
 router.patch(
-  '/expense',
-  // authenticate,
-  validateBody(schemasTransactions),
+  '/expense/:transactionId',
+  authenticate,
+  isValidId,
+  validateBody(schemasTransactions.addTransactions),
   controllerWrapper(controllers.editExpense)
 );
 
 router.delete(
-  '/expense',
-  // authenticate,
-  validateBody(schemasTransactions),
+  '/expense/:transactionId',
+  authenticate,
+  isValidId,
   controllerWrapper(controllers.removeExpense)
 );
 
