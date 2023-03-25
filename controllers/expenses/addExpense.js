@@ -7,7 +7,7 @@ const addExpense = async (req, res) => {
 
   const result = await Transaction.create({
     ...req.body,
-    date: new Date().toLocaleString(),
+    date: new Date().toISOString(),
     owner,
   });
 
@@ -18,8 +18,8 @@ const addExpense = async (req, res) => {
   if (result) {
     const balanceUpdate =
       result.categoryType === 'income'
-        ? balance + result.sum
-        : balance - result.sum;
+        ? Number(balance) + Number(result.sum)
+        : Number(balance) - Number(result.sum);
 
     await User.findByIdAndUpdate(
       owner,
