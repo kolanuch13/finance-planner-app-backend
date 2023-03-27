@@ -1,5 +1,5 @@
-const { User } = require("../../models/users");
-const { requestError } = require("../../helpers");
+const { User } = require('../../models/users');
+const { requestError } = require('../../helpers');
 
 const verify = async (req, res) => {
   console.log(123);
@@ -11,11 +11,11 @@ const verify = async (req, res) => {
 
   await User.findByIdAndUpdate(user._id, {
     verify: true,
-    verificationToken: "",
+    verificationToken: '',
   });
 
   res.json({
-    message: "Email was verified successfully",
+    message: 'Email was verified successfully',
   });
 };
 
