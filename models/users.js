@@ -44,6 +44,4 @@ userSchema.post('save', handleSaveError);
 
 const User = model('user', userSchema);
 
-module.exports = {
-  User,
-};
+module.exports = { User };
