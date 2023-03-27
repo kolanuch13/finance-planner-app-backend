@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { controllerWrapper } = require('../../helpers/');
 const { personalSchema } = require('../../schemas/personal');
+
 const Personal = require('../../controllers/personal/');
 const { authenticate } = require('../../middlewares');
 
 const { validateBody } = require('../../middlewares');
+
 
 router.post(
   '/pre',

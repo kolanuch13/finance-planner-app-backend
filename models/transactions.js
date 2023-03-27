@@ -46,7 +46,7 @@ const transactionSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 transactionSchema.post('save', handleSaveErrors);
