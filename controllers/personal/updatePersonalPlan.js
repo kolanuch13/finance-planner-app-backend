@@ -1,11 +1,10 @@
 const { Personal } = require('../../models/personal');
 
 const updatePersonalPlan = async (req, res) => {
-  const { salary, passiveIncome, savings, cost, procent, footage, owner } =
-    req.body;
-
+  const { salary, passiveIncome, savings, cost, procent, footage } = req.body;
+  const { _id } = req.user;
   const result = await Personal.findOneAndUpdate(
-    { owner: owner },
+    { owner: _id },
     {
       salary: salary,
       passiveIncome: passiveIncome,
