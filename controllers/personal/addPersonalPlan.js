@@ -1,7 +1,18 @@
 const { Personal } = require('../../models/personal');
 
 const addPersonalPlan = async (req, res) => {
-  const { salary, passiveIncome, savings, cost, procent, footage } = req.body;
+
+  const {
+    salary,
+    passiveIncome,
+    savings,
+    cost,
+    procent,
+    footage,
+    years,
+    months,
+  } = req.body;
+
   const { _id: owner } = req.user;
   const result = await Personal.create({
     salary,
@@ -11,6 +22,10 @@ const addPersonalPlan = async (req, res) => {
     procent,
     footage,
     owner,
+
+    years,
+    months,
+
   });
 
   res.status(201).json({
@@ -20,6 +35,9 @@ const addPersonalPlan = async (req, res) => {
     cost: result.cost,
     procent: result.procent,
     footage: result.footage,
+    owner: result.owner,
+    years,
+    months,
   });
 };
 module.exports = addPersonalPlan;

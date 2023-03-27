@@ -4,26 +4,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRouter = require('./routes/api/auth');
 const dynamicRouter = require('./routes/api/dynamics');
-const { DateTime } = require('luxon');
-const moment = require('moment');
 
-const endDate = new Date();
-
-const startDate = DateTime.now()
-  .setZone('America/New_York')
-  .minus({ years: 1 })
-  .toISO();
-const endPoint = new Date(
-  moment(endDate.toISOString().slice(0, 7)).endOf('month')
-);
-const startPoint = new Date(moment(startDate.slice(0, 7)).startOf('month'));
-
-// console.log(startDate);
-console.log(startPoint);
-// console.log(endDate);
-console.log(endPoint);
-
-const personalRouter = require('./routes/api/personal');
+const statisticRouter = require('./routes/api/statistics');
 
 const transactionRouter = require('./routes/api/expenses');
 dotenv.config();
@@ -41,7 +23,7 @@ require('./config/config-passport'); // ????
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/auth', authRouter);
-
+app.use('/api/statistic', statisticRouter);
 app.use('/api', transactionRouter);
 app.use('/dynamic', dynamicRouter);
 app.use('/personal', personalRouter);

@@ -7,15 +7,8 @@ const personalSchema = Joi.object({
   footage: Joi.number().required(),
   procent: Joi.number().required(),
   passiveIncome: Joi.number().required(),
-  year: Joi.number(),
-  month: Joi.number(),
+  years: Joi.number(),
+  months: Joi.number(),
 });
-
-// const personalSchema = {
-//   registerSchema,
-//   loginSchema,
-//   subscriptionSchema,
-//   verifyEmailSchema,
-// };
 
 module.exports = { personalSchema };

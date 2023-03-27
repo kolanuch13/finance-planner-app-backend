@@ -18,6 +18,10 @@
     {
       "name": "Dynamic",
       "description": "Dynamic endpoints"
+    },
+    {
+      "name": "Transaction",
+      "description": "Transaction endpoints"
     }
   ],
   "paths": {
@@ -385,6 +389,264 @@
           }
         ]
       }
+    },
+    "/category": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary": "Obtaining a list of categories for which creation of transaction records is available.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetListCategories"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailable"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dayLimit": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary": "Daily and monthly spending limit.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSpendingLimit"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/transaction": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary": "Request to add a transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostTransactionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostTransactionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/transaction/:transactionId": {
+      "patch": {
+        "tags": ["Transaction"],
+        "summary": "Request to change the information of the added transaction.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "required": true,
+            "type": "string",
+            "description": "Transaction id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostTransactionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostTransactionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Transaction"],
+        "summary": "Deleting a transaction.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "required": true,
+            "type": "string",
+            "description": "Transaction id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTransaction"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                },
+                "example": {
+                  "message": "Not Found!"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -398,6 +660,26 @@
           }
         },
         "description": "Bad Request"
+      },
+      "InternalServerError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Internal Server Error..."
+          }
+        },
+        "description": "Internal Server Error"
+      },
+      "ServiceUnavailable": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Service Unavailable..."
+          }
+        },
+        "description": "Service Unavailable"
       },
       "NewUserRequest": {
         "required": ["email", "name", "password"],
@@ -627,21 +909,115 @@
         },
         "description": "Success"
       },
-        "UploadImageRequest": {
+      "PostTransactionRequest": {
+        "required": ["sum", "categoryType"],
+        "type": "object",
+        "properties": {
+          "sum": {
+            "type": "number",
+            "description": "Transaction amount",
+            "example": 500
+          },
+          "categoryType": {
+            "type": "string",
+            "description": "Specify the type depending on the transaction type.",
+            "example": "categoryType:expense or categoryType:income"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Description of the cost type. It is indicated only when the transaction is for the expenditure of funds.",
+            "example": "comment:coffee"
+          }
+        },
+        "description": "The body of the transaction request."
+      },
+      "PostTransactionResponse": {
+        "required": ["sum", "categoryType"],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "date",
+            "description": "Transaction date.",
+            "example": "2023-03-25T19:53:06.444Z"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Description of the cost type. It is indicated only when the transaction is for the expenditure of funds.",
+            "example": "comment:coffee"
+          },
+          "sum": {
+            "type": "number",
+            "description": "Transaction amount.",
+            "example": 500
+          },
+          "categoryType": {
+            "type": "string",
+            "description": "Selected transaction.",
+            "example": "categoryType:expense or categoryType:income"
+          },
+          "category": {
+            "type": "string",
+            "description": "Cost category.",
+            "example": "'other', 'Products', 'Clothing and footwear'..."
+          },
+          "owner": {
+            "type": "string",
+            "description": "id user.",
+            "example": "641b000f26f8a8424c229c5f"
+          },
+          "_id": {
+            "type": "string",
+            "description": "id transaction.",
+            "example": "641b000f26f8a84285729c5f"
+          }
+        },
+        "description": "The body of complete information about the transaction."
+      },
+      "GetSpendingLimit": {
+        "type": "object",
+        "properties": {
+          "limitDay": {
+            "type": "number",
+            "example": 548.39
+          },
+          "limitMonth": {
+            "type": "number",
+            "example": 17000.0
+          }
+        },
+        "description": "Success"
+      },
+      "GetListCategories": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "example": "'Products', 'Clothing and footwear', 'Cafes and restaurants', 'Beauty and medicine', 'Health', 'Transport', 'House, Other'"
+        },
+        "description": "Success"
+      },
+      "DeleteTransaction": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "contact deleted"
+          }
+        }
+      },
+      "UploadImageRequest": {
         "type": "string",
         "format": "binary",
-         "description": "Flat image"
-        },
-        "UploadImageResponse":{
-          "type": "object",
-          "properties": {
-            "imageURL": {
-          "type": "string",
-          "example": "http://res.cloudinary.com/scfsdcsd/image/upload/vsgfdfgds/sfcsdcfs.png"
-        }
+        "description": "Flat image"
+      },
+      "UploadImageResponse": {
+        "type": "object",
+        "properties": {
+          "imageURL": {
+            "type": "string",
+            "example": "http://res.cloudinary.com/scfsdcsd/image/upload/vsgfdfgds/sfcsdcfs.png"
           }
-        } 
-      
+        }
+      }
     },
     "securitySchemes": {
       "bearerAuth": {

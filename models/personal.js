@@ -8,13 +8,13 @@ const personalSchema = new Schema(
     cost: { type: Number, required: true },
     footage: { type: Number, required: true },
     procent: { type: Number, required: true },
-    year: { type: Number },
-    month: { type: Number },
+    years: { type: Number },
+    months: { type: Number },
     image: {
       data: Buffer,
       contentType: String,
     },
-    owner: { type: Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: Schema.Types.ObjectId, ref: 'user' },
   },
   { versionKey: false, timestamps: true }
 );
