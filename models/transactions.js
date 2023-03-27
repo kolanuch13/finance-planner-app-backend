@@ -26,7 +26,7 @@ const transactionSchema = new Schema(
       required: false,
     },
     sum: {
-      type: String,
+      type: Number,
       required: true,
     },
     categoryType: {
@@ -46,7 +46,7 @@ const transactionSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 transactionSchema.post('save', handleSaveErrors);

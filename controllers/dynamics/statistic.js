@@ -1,4 +1,6 @@
-const { requestError } = require("../../helpers");
+const { requestError } = require('../../helpers');
+const { Transaction } = require('../../models/transactions');
+const { Personal } = require('../../models/personal');
 
 async function statisticInfo(req, res) {
   const { _id } = req.user;
@@ -10,7 +12,7 @@ async function statisticInfo(req, res) {
 
   const incomes = await Transaction.find({
     owner: _id,
-    type: "income",
+    categoryType: 'income',
   });
 
   if (!incomes) {
@@ -36,7 +38,7 @@ async function statisticInfo(req, res) {
 
   const expenses = await Transaction.find({
     owner: _id,
-    type: "expense",
+    categoryType: 'expense',
   });
 
   if (!expenses) {
@@ -64,7 +66,7 @@ async function statisticInfo(req, res) {
 
   // plan money per month
 
-  const { passiveIncome, salary, procent } = await personalPlan.find({
+  const { passiveIncome, salary, procent } = await Personal.find({
     owner: _id,
   });
   if (!passiveIncome || !salary || !procent) {

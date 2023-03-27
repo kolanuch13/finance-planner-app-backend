@@ -20,7 +20,7 @@ const addTransactions = Joi.object({
   categoryType: Joi.string()
     .valid(...category)
     .required(),
-  sum: Joi.string().required(),
+  sum: Joi.number().required(),
 });
 // стосовно даних з from account - я думаю, що цю суму потрібно забирати, тому ми передаємо тільки тип категорії, коментар та суму
 
