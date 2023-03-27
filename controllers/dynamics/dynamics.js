@@ -91,64 +91,61 @@ async function chartInfo(req, res) {
     years: planYears,
     months: planMonths,
     createdAt,
-  } = await Personal.find({ owner: _id });
+  } = await Personal.findOne({
+    owner: _id,
+  });
 
-  // if (!planYears || !planMonths || !createdAt) {
-  //   throw requestError(404);
-  // }
-  // const nowDate = new Date();
-  // const finishDate = DateTime.fromISO(createdAt)
-  //   .plus({ planYears, planMonths })
-  //   .toISODate();
+  if (!planYears || !planMonths || !createdAt) {
+    throw requestError(404);
+  }
 
-  // const start = DateTime.fromISO(nowDate.toISOString());
-  // const end = DateTime.fromISO(finishDate);
-
-  // const { years, months } = end.diff(start, ['months', 'year']).toObject();
-
+  const dateOfStart = new DateTime(createdAt);
+  const endDate = dateOfStart.plus({ years: planYears, months: planMonths });
+  const today = DateTime.local();
+  const remainingTime = endDate.diff(today, ['years', 'months']).toObject();
   // acumulated in %
 
-  // const { balance } = await User.find({ owner: _id });
-  // if (!balance) {
-  //   throw requestError(404);
-  // }
+  const user = await User.findById(_id);
+  if (!user) {
+    throw requestError(404);
+  }
 
-  // const { cost, footage } = await Personal.find({ owner: _id });
-  // if (!cost || !footage) {
-  //   throw requestError(404);
-  // }
+  const { cost, footage } = await Personal.findOne({ owner: _id });
+  if (!cost || !footage) {
+    throw requestError(404);
+  }
 
-  // const acumulatedAsPercentage = (balance / cost) * 100;
+  const acumulatedAsPercentage = (user.balance / cost) * 100;
 
-  // // acumulated squard meters
+  // acumulated squard meters
 
-  // const costOfOneMeter = cost / footage;
-  // const acumulatedSqMetersRounded = Math.floor(balance / costOfOneMeter);
+  const costOfOneMeter = cost / footage;
+  const acumulatedSqMetersRounded = Math.floor(user.balance / costOfOneMeter);
 
-  // // left acumulate money to one meter
+  // left acumulate money to one meter
 
-  // const acumulatedSqMeter = balance / costOfOneMeter;
+  const acumulatedSqMeter = user.balance / costOfOneMeter;
 
-  // const leftAcumulatedSqMeter = acumulatedSqMeter % 1;
-  // let leftAcumulatedMoneyToMeter = Math.round(
-  //   costOfOneMeter * leftAcumulatedSqMeter
-  // );
+  const leftAcumulatedSqMeter = acumulatedSqMeter % 1;
+  let leftAcumulatedMoneyToMeter = Math.round(
+    costOfOneMeter * leftAcumulatedSqMeter
+  );
 
-  // if (leftAcumulatedSqMeter === 0) {
-  //   leftAcumulatedMoneyToMeter = costOfOneMeter;
-  // }
+  if (leftAcumulatedSqMeter === 0) {
+    leftAcumulatedMoneyToMeter = costOfOneMeter;
+  }
 
   res.json({
     lastYearInfo,
     timeIsLeft: {
-      years: Math.round(planYears),
-      months: Math.round(planMonths),
-      createdAt,
+      years: Math.round(remainingTime.years),
+      months: Math.round(remainingTime.months),
     },
-    // acumulatedAsPercentage,
-    // acumulatedMoney: balance,
-    // acumulatedSqMeters: acumulatedSqMetersRounded,
-    // leftAcumulatedMoneyToMeter,
+
+    acumulatedAsPercentage,
+    acumulatedMoney: user.balance,
+    acumulatedSqMeters: acumulatedSqMetersRounded,
+    leftAcumulatedMoneyToMeter,
   });
 }
 
