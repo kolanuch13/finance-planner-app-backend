@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRouter = require('./routes/api/auth');
 const dynamicRouter = require('./routes/api/dynamics');
+const personalRouter = require('./routes/api/personal');
 
 const statisticRouter = require('./routes/api/statistics');
 
@@ -26,7 +27,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/statistic', statisticRouter);
 app.use('/api', transactionRouter);
 app.use('/dynamic', dynamicRouter);
-app.use('/personal', personalRouter);
+app.use('/api/personal', personalRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
