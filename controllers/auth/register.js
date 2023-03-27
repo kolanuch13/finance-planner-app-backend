@@ -1,18 +1,19 @@
-const bcrypt = require("bcryptjs");
-const { User } = require("../../models/users");
-require("dotenv").config();
+const bcrypt = require('bcryptjs');
+const { User } = require('../../models/users');
+require('dotenv').config();
 
-const { requestError } = require("../../helpers");
-const { nanoid } = require("nanoid");
-const sendMail = require("../../helpers/sendMail");
-const { BASE_URL } = process.env;
+const { requestError } = require('../../helpers');
+const { nanoid } = require('nanoid');
+const sendMail = require('../../helpers/sendMail');
+// const { BASE_URL } = process.env;
+const { FRONTEND_URL } = process.env;
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   const user = await User.findOne({ email });
   console.log(user);
   if (user) {
-    throw requestError(409, "Email in use");
+    throw requestError(409, 'Email in use');
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
@@ -26,8 +27,8 @@ const register = async (req, res) => {
 
   const mail = {
     to: email,
-    subject: "Verify email bro:))",
-    html: `<a target="_blank" href="${BASE_URL}api/auth/verify/${verificationToken}">Click to verify your email</a>`,
+    subject: 'Verify email bro:))',
+    html: `<a target="_blank" href="${FRONTEND_URL}/verify/${verificationToken}">Click to verify your email</a>`,
   };
 
   await sendMail(mail);
