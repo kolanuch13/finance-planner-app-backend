@@ -1281,113 +1281,75 @@
       },
       "OwnersDatabase": {
         "type": "array",
-
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Current DB Id"
+            },
+            "salary": {
+              "type": "number",
+              "description": "Yours salaries"
+            },
+            "passiveIncome": {
+              "type": "number",
+              "description": "Yours passive Income"
+            },
+            "savings": {
+              "type": "number",
+              "description": "Your savings"
+            },
+            "cost": {
+              "type": "number",
+              "description": "The cost of the apartment"
+            },
+            "footage": {
+              "type": "number",
+              "description": "Footage of the apartment in square meters"
+            },
+            "procent": {
+              "type": "number",
+              "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Owner`s Id"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "When created"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "When updated"
+            }
+          }
+        },
         "example": [
           {
-            "id": {
-              "type": "string",
-              "description": "Current user`s Id",
-              "example": "6421b9fb8c1be9f98e0608dc"
-            },
-            "salary": {
-              "type": "number",
-              "description": "Yours salaries",
-              "example": 40000
-            },
-            "passiveIncome": {
-              "type": "number",
-              "description": "Yours passive Income",
-              "example": 5000
-            },
-            "savings": {
-              "type": "number",
-              "description": "Your savings",
-              "example": 10000
-            },
-            "cost": {
-              "type": "number",
-              "description": "The cost of the apartment",
-              "example": 1000000
-            },
-            "footage": {
-              "type": "number",
-              "description": "Footage of the apartment in square meters",
-              "example": 60
-            },
-
-            "procent": {
-              "type": "number",
-              "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
-              "example": 10
-            },
-            "owner": {
-              "type": "string",
-              "description": "Owner`s Id",
-              "example": "6421ae3ead793ceed5cf4061"
-            },
-            "createdAt": {
-              "type": "string",
-              "description": "When created",
-              "example": "2023-03-27T15:44:59.486Z"
-            },
-            "updatedAt": {
-              "type": "string",
-              "description": "When updated",
-              "example": "2023-03-27T16:50:52.319Z"
-            }
+            "id": "6421b9fb8c1be9f98e0608dc",
+            "salary": 47000,
+            "passiveIncome": 6000,
+            "savings": 20000,
+            "cost": 700000,
+            "footage": 45,
+            "procent": 8,
+            "owner": "6421ae3ead793ceed5cf4061",
+            "createdAt": "2023-03-27T15:44:59.486Z",
+            "updatedAt": "2023-03-27T16:34:09.195Z"
           },
           {
-            "id": {
-              "type": "string",
-              "description": "Current user`s Id",
-              "example": "6421b9fb8c1be9f98e0608dc"
-            },
-            "salary": {
-              "type": "number",
-              "description": "Yours salaries",
-              "example": 47000
-            },
-            "passiveIncome": {
-              "type": "number",
-              "description": "Yours passive Income",
-              "example": 6000
-            },
-            "savings": {
-              "type": "number",
-              "description": "Your savings",
-              "example": 20000
-            },
-            "cost": {
-              "type": "number",
-              "description": "The cost of the apartment",
-              "example": 700000
-            },
-            "footage": {
-              "type": "number",
-              "description": "Footage of the apartment in square meters",
-              "example": 45
-            },
-
-            "procent": {
-              "type": "number",
-              "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
-              "example": 8
-            },
-            "owner": {
-              "type": "string",
-              "description": "Owner`s Id",
-              "example": "6421c5819c4b6d2010504362"
-            },
-            "createdAt": {
-              "type": "string",
-              "description": "When created",
-              "example": "2023-03-27T16:34:09.195Z"
-            },
-            "updatedAt": {
-              "type": "string",
-              "description": "When updated",
-              "example": "2023-03-27T16:34:09.195Z"
-            }
+            "id": "6421c5819c4b6d2010504362",
+            "salary": 10500,
+            "passiveIncome": 8500,
+            "savings": 34000,
+            "cost": 850000,
+            "footage": 67,
+            "procent": 11,
+            "owner": "6421ae3ead793ceed5cf4061",
+            "createdAt": "2023-03-27T16:34:09.195Z",
+            "updatedAt": "2023-03-27T16:34:18.622Z"
           }
         ]
       },
