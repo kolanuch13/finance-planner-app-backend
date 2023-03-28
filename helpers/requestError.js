@@ -1,8 +1,8 @@
 const messages = {
-  400: "Bad request",
-  401: "Unathorized",
-  403: "Forbidden",
-  404: "Not found",
+  400: 'Bad request',
+  401: 'Unathorized',
+  403: 'Forbidden',
+  404: 'Not found',
 };
 
 const requestError = (status, message = messages[status]) => {
