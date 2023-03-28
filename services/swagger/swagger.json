@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:4000/api"
+      "url": "http://localhost:4000/api"
     }
   ],
   "tags": [
@@ -22,6 +22,10 @@
     {
       "name": "Transaction",
       "description": "Transaction endpoints"
+    },
+    {
+      "name": "Personal",
+      "description": "Personal Plan endpoints"
     }
   ],
   "paths": {
@@ -647,6 +651,219 @@
           }
         ]
       }
+    },
+    "/personal": {
+      "post": {
+        "tags": ["Personal"],
+        "summary": "Add collection to Mongo DB",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewCollection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewCollectionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestPersonal"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unauthorized or don`t fill the required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnathorisedPersonal"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["Personal"],
+        "summary": "Edit collection",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditCollection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Edited success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditCollectionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestPersonal"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unauthorized or don`t fill the required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnathorisedPersonal"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Personal"],
+        "summary": "Get DB of current user ",
+        "responses": {
+          "201": {
+            "description": "Owner`s DB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnersDatabase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestPersonal"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unauthorized or don`t fill the required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnathorisedPersonal"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/personal/pre": {
+      "post": {
+        "tags": ["Personal"],
+        "summary": "Calculate, when you will have an apartment in: years and month",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculatingTimer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "The calculation has taken place",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Calculating"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestPersonal"
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unauthorized or don`t fill the required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnathorisedPersonal"
+                },
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1017,13 +1234,358 @@
             "example": "http://res.cloudinary.com/scfsdcsd/image/upload/vsgfdfgds/sfcsdcfs.png"
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+      "CreateNewCollection": {
+        "required": [
+          "salary",
+          "passiveIncome",
+          "savings",
+          "cost",
+          "footage",
+          "procent"
+        ],
+        "type": "object",
+        "properties": {
+          "salary": {
+            "type": "number",
+            "description": "Your salaries",
+            "example": 40000
+          },
+          "passiveIncome": {
+            "type": "number",
+            "description": "Your passive Income",
+            "example": 5000
+          },
+          "savings": {
+            "type": "number",
+            "description": "Your savings",
+            "example": 10000
+          },
+          "cost": {
+            "type": "number",
+            "description": "Cost of the apartment",
+            "example": 1000000
+          },
+          "footage": {
+            "type": "number",
+            "description": "Footage of the apartment in square meters",
+            "example": 60
+          },
+
+          "procent": {
+            "type": "number",
+            "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
+            "example": 10
+          }
+        }
+      },
+      "OwnersDatabase": {
+        "type": "array",
+
+        "example": [
+          {
+            "id": {
+              "type": "string",
+              "description": "Current user`s Id",
+              "example": "6421b9fb8c1be9f98e0608dc"
+            },
+            "salary": {
+              "type": "number",
+              "description": "Yours salaries",
+              "example": 40000
+            },
+            "passiveIncome": {
+              "type": "number",
+              "description": "Yours passive Income",
+              "example": 5000
+            },
+            "savings": {
+              "type": "number",
+              "description": "Your savings",
+              "example": 10000
+            },
+            "cost": {
+              "type": "number",
+              "description": "The cost of the apartment",
+              "example": 1000000
+            },
+            "footage": {
+              "type": "number",
+              "description": "Footage of the apartment in square meters",
+              "example": 60
+            },
+
+            "procent": {
+              "type": "number",
+              "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
+              "example": 10
+            },
+            "owner": {
+              "type": "string",
+              "description": "Owner`s Id",
+              "example": "6421ae3ead793ceed5cf4061"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "When created",
+              "example": "2023-03-27T15:44:59.486Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "When updated",
+              "example": "2023-03-27T16:50:52.319Z"
+            }
+          },
+          {
+            "id": {
+              "type": "string",
+              "description": "Current user`s Id",
+              "example": "6421b9fb8c1be9f98e0608dc"
+            },
+            "salary": {
+              "type": "number",
+              "description": "Yours salaries",
+              "example": 47000
+            },
+            "passiveIncome": {
+              "type": "number",
+              "description": "Yours passive Income",
+              "example": 6000
+            },
+            "savings": {
+              "type": "number",
+              "description": "Your savings",
+              "example": 20000
+            },
+            "cost": {
+              "type": "number",
+              "description": "The cost of the apartment",
+              "example": 700000
+            },
+            "footage": {
+              "type": "number",
+              "description": "Footage of the apartment in square meters",
+              "example": 45
+            },
+
+            "procent": {
+              "type": "number",
+              "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
+              "example": 8
+            },
+            "owner": {
+              "type": "string",
+              "description": "Owner`s Id",
+              "example": "6421c5819c4b6d2010504362"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "When created",
+              "example": "2023-03-27T16:34:09.195Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "When updated",
+              "example": "2023-03-27T16:34:09.195Z"
+            }
+          }
+        ]
+      },
+      "CalculatingTimer": {
+        "required": [
+          "salary",
+          "passiveIncome",
+          "savings",
+          "cost",
+          "footage",
+          "procent"
+        ],
+        "type": "object",
+        "properties": {
+          "salary": {
+            "type": "number",
+            "description": "Your salaries",
+            "example": 40000
+          },
+          "passiveIncome": {
+            "type": "number",
+            "description": "Your passive Income",
+            "example": 5000
+          },
+          "savings": {
+            "type": "number",
+            "description": "Your savings",
+            "example": 10000
+          },
+          "cost": {
+            "type": "number",
+            "description": "Cost of the apartment",
+            "example": 1000000
+          },
+          "footage": {
+            "type": "number",
+            "description": "Footage of the apartment in square meters",
+            "example": 60
+          },
+
+          "procent": {
+            "type": "number",
+            "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
+            "example": 10
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "NewCollectionResponse": {
+        "type": "object",
+        "properties": {
+          "salary": {
+            "type": "number",
+            "description": "Yours salaries",
+            "example": 40000
+          },
+          "passiveIncome": {
+            "type": "number",
+            "description": "Yours passive Income",
+            "example": 5000
+          },
+          "savings": {
+            "type": "number",
+            "description": "Your savings",
+            "example": 10000
+          },
+          "cost": {
+            "type": "number",
+            "description": "The cost of the apartment",
+            "example": 1000000
+          },
+          "footage": {
+            "type": "number",
+            "description": "Footage of the apartment in square meters",
+            "example": 60
+          },
+
+          "procent": {
+            "type": "number",
+            "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
+            "example": 10
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner`s Id",
+            "example": "6421ae3ead793ceed5cf4061"
+          }
+        },
+        "description": "New collection was created"
+      },
+      "EditCollectionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Current user`s Id",
+            "example": "6421b9fb8c1be9f98e0608dc"
+          },
+          "salary": {
+            "type": "number",
+            "description": "Yours salaries",
+            "example": 40000
+          },
+          "passiveIncome": {
+            "type": "number",
+            "description": "Yours passive Income",
+            "example": 5000
+          },
+          "savings": {
+            "type": "number",
+            "description": "Your savings",
+            "example": 10000
+          },
+          "cost": {
+            "type": "number",
+            "description": "The cost of the apartment",
+            "example": 1000000
+          },
+          "footage": {
+            "type": "number",
+            "description": "Footage of the apartment in square meters",
+            "example": 60
+          },
+
+          "procent": {
+            "type": "number",
+            "description": "Specify the percentage that you would like to accumulate per month from the total amount of income and you will see when you reach the goal",
+            "example": 10
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner`s Id",
+            "example": "6421ae3ead793ceed5cf4061"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "When created",
+            "example": "2023-03-27T15:44:59.486Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "When updated",
+            "example": "2023-03-27T16:50:52.319Z"
+          }
+        },
+        "description": "Collection was updated"
+      },
+      "Calculating": {
+        "type": "object",
+        "properties": {
+          "years": {
+            "type": "number",
+            "description": "Years required",
+            "example": 2
+          },
+          "month": {
+            "type": "number",
+            "description": "Months required",
+            "example": 10
+          }
+        },
+        "description": "You will have an apartment in..."
+      },
+      "EditCollection": {
+        "type": "object",
+        "properties": {
+          "salary": {
+            "type": "number",
+            "description": "Yours salaries",
+            "example": 40000
+          }
+        }
+      },
+      "BadRequestPersonal": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Bad request"
+          }
+        },
+        "description": "Bad Request"
+      },
+      "UnathorisedPersonal": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Unathorised"
+          }
+        },
+        "description": "Unathorised"
       }
     }
   }

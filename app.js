@@ -25,7 +25,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/statistic', statisticRouter);
 app.use('/api', transactionRouter);
 app.use('/dynamic', dynamicRouter);
-app.use('/personal', personalRouter);
+app.use('/api/personal', personalRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
