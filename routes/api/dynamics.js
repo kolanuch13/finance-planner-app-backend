@@ -7,21 +7,21 @@ const { controllerWrapper } = require('../../helpers');
 const {
   validateBody,
   uploadCloud,
-  authenticate,
+  // authenticate,
 } = require('../../middlewares');
 
-router.get('/chart', authenticate, controllerWrapper(controllers.chartInfo));
+router.get('/chart', controllerWrapper(controllers.chartInfo));
 
 router.get(
   '/statistic',
-  authenticate,
-  validateBody(dateSchema),
+  // authenticate,
+  // validateBody(dateSchema),
   controllerWrapper(controllers.statisticInfo)
 );
 
 router.patch(
   '/flatImage',
-  authenticate,
+  // authenticate,
   uploadCloud.single('flatImage'),
   controllerWrapper(controllers.flatImage)
 );

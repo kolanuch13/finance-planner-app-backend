@@ -24,7 +24,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/auth', authRouter);
 app.use('/api/statistic', statisticRouter);
 app.use('/api', transactionRouter);
-app.use('/dynamic', dynamicRouter);
+app.use('/api/dynamic', dynamicRouter);
 app.use('/api/personal', personalRouter);
 
 app.use((req, res) => {
