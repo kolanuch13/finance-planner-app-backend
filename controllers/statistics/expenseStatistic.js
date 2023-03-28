@@ -16,8 +16,6 @@ const categoryStatistic = async (req, res) => {
     .month(month - 1)
     .endOf('month')
     .format();
-  // для swager передача року - так як є (напр, 2023)
-  // для swager передача місяця - від 1 - до 12
 
   const result = await Transaction.aggregate([
     {

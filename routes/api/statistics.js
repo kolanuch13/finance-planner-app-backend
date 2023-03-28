@@ -18,5 +18,3 @@ router.get(
 );
 
 module.exports = router;
-// P.S. categoryTypeStatistic = by-expense: 'products', 'clothing and footwear', 'cafes and restaurants', 'beauty and medicine', 'health', 'transport', 'house', 'other'
-// P.S. categoryStatistic = by-category: 'expense', 'income'
