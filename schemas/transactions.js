@@ -24,8 +24,4 @@ const addTransactions = Joi.object({
 });
 // стосовно даних з from account - я думаю, що цю суму потрібно забирати, тому ми передаємо тільки тип категорії, коментар та суму
 
-const schemasTransactions = {
-  addTransactions,
-};
-
-module.exports = { schemasTransactions };
+module.exports = { addTransactions };

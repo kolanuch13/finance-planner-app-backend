@@ -2,7 +2,7 @@ const express = require('express');
 const controllers = require('../../controllers/expenses/');
 const controllerWrapper = require('../../helpers/controllerWrapper');
 const { validateBody, authenticate, isValidId } = require('../../middlewares');
-const { schemasTransactions } = require('../../schemas/transactions');
+const { addTransactions } = require('../../schemas/transactions');
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.get(
 router.post(
   '/transaction',
   authenticate,
-  validateBody(schemasTransactions.addTransactions),
+  validateBody(addTransactions),
   controllerWrapper(controllers.addExpense)
 );
 
@@ -25,7 +25,7 @@ router.patch(
   '/transaction/:transactionId',
   authenticate,
   isValidId,
-  validateBody(schemasTransactions.addTransactions),
+  validateBody(addTransactions),
   controllerWrapper(controllers.editExpense)
 );
 
