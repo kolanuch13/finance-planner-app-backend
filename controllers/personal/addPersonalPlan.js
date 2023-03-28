@@ -1,7 +1,6 @@
 const { Personal } = require('../../models/personal');
 
 const addPersonalPlan = async (req, res) => {
-
   const {
     salary,
     passiveIncome,
@@ -22,10 +21,9 @@ const addPersonalPlan = async (req, res) => {
     procent,
     footage,
     owner,
-
+    imageURL: '',
     years,
     months,
-
   });
 
   res.status(201).json({
@@ -38,6 +36,7 @@ const addPersonalPlan = async (req, res) => {
     owner: result.owner,
     years,
     months,
+    imageURL: result.imageURL,
   });
 };
 module.exports = addPersonalPlan;

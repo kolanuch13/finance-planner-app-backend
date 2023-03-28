@@ -110,7 +110,7 @@ async function chartInfo(req, res) {
     throw requestError(404);
   }
 
-  const { cost, footage } = await Personal.findOne({ owner: _id });
+  const { cost, footage, imageURL } = await Personal.findOne({ owner: _id });
   if (!cost || !footage) {
     throw requestError(404);
   }
@@ -146,6 +146,7 @@ async function chartInfo(req, res) {
     acumulatedMoney: user.balance,
     acumulatedSqMeters: acumulatedSqMetersRounded,
     leftAcumulatedMoneyToMeter,
+    imageURL,
   });
 }
 

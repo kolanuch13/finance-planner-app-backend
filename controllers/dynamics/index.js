@@ -1,9 +1,9 @@
 const chartInfo = require('./dynamics');
 const statisticInfo = require('./statistic');
-const flatImage = require('./flatImage');
+const changeFlatImage = require('./changeFlatImage');
 
 module.exports = {
   chartInfo,
   statisticInfo,
-  flatImage,
+  changeFlatImage,
 };
