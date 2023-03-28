@@ -1,7 +1,7 @@
-const { User } = require("../../models/users");
-const { requestError } = require("../../helpers");
-const { sendMail } = require("../../helpers/");
-require("dotenv").config();
+const { User } = require('../../models/users');
+const { requestError } = require('../../helpers');
+const { sendMail } = require('../../helpers/');
+require('dotenv').config();
 const { BASE_URL } = process.env;
 
 const resendEmail = async (req, res) => {
@@ -16,14 +16,14 @@ const resendEmail = async (req, res) => {
 
   const mail = {
     to: email,
-    subject: "Verify email bro:))",
-    html: `<a target="_blank" href="${BASE_URL}api/auth/verify/${user.verificationToken}">Click to verify your email</a>`,
+    subject: 'Verify email bro:))',
+    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${user.verificationToken}">Click to verify your email</a>`,
   };
 
   await sendMail(mail);
 
   res.json({
-    message: "Mail was send successfully",
+    message: 'Mail was send successfully',
   });
 };
 

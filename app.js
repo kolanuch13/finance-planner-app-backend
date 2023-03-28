@@ -4,11 +4,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRouter = require('./routes/api/auth');
 const dynamicRouter = require('./routes/api/dynamics');
-const personalRouter = require('./routes/api/personal');
-
 const statisticRouter = require('./routes/api/statistics');
-
 const transactionRouter = require('./routes/api/expenses');
+const personalRouter = require('./routes/api/personal');
 dotenv.config();
 
 const { swaggerUi, swaggerDocument } = require('./services/swagger/swagger');

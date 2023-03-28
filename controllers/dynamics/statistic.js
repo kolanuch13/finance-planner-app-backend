@@ -5,68 +5,88 @@ const { Personal } = require('../../models/personal');
 async function statisticInfo(req, res) {
   const { _id } = req.user;
 
-  const currentDate = new Date();
+  const currentDate = new Date('YYYY-MM');
   const { date = currentDate } = req.body;
+
+  const month = new Date(date).getMonth() + 1;
+  const year = new Date(date).getFullYear();
 
   // incomes for the selected month
 
-  const incomes = await Transaction.find({
-    owner: _id,
-    categoryType: 'income',
-  });
-
-  if (!incomes) {
-    throw requestError(404);
-  }
-
-  const incomePerSelectedMonth = [];
-  for (let i = 0; i < incomes.length; i++) {
-    if (
-      new Date(incomes[i].createdAt).getMonth() === new Date(date).getMonth() &&
-      new Date(incomes[i].createdAt).getFullYear() ===
-        new Date(date).getFullYear()
-    ) {
-      incomePerSelectedMonth.push(incomes[i].sum);
-    }
-  }
-  const incomeSumPerSelectedMonth = incomePerSelectedMonth.reduce(
-    (ac, item) => ac + item,
-    0
-  );
+  const incomeSumPerSelectedMonth = await Transaction.aggregate([
+    {
+      $match: {
+        $and: [
+          { owner: _id },
+          { categoryType: 'income' },
+          {
+            $expr: {
+              $eq: [{ $month: '$createdAt' }, month],
+            },
+          },
+          {
+            $expr: {
+              $eq: [{ $year: '$createdAt' }, year],
+            },
+          },
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: { $toDouble: '$sum' } },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        income: '$total',
+      },
+    },
+  ]);
 
   // expenses for the selected month
+  const expenseSumPerSelectedMonth = await Transaction.aggregate([
+    {
+      $match: {
+        $and: [
+          { owner: _id },
+          { categoryType: 'expense' },
+          {
+            $expr: {
+              $eq: [{ $month: '$createdAt' }, month],
+            },
+          },
+          {
+            $expr: {
+              $eq: [{ $year: '$createdAt' }, year],
+            },
+          },
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: { $toDouble: '$sum' } },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        expense: '$total',
+      },
+    },
+  ]);
 
-  const expenses = await Transaction.find({
-    owner: _id,
-    categoryType: 'expense',
-  });
-
-  if (!expenses) {
-    throw requestError(404);
-  }
-
-  const expensePerSelectedMonth = [];
-  for (let i = 0; i < expenses.length; i++) {
-    if (
-      new Date(expenses[i].createdAt).getMonth() ===
-        new Date(date).getMonth() &&
-      new Date(expenses[i].createdAt).getFullYear() ===
-        new Date(date).getFullYear()
-    ) {
-      expensePerSelectedMonth.push(expenses[i].sum);
-    }
-  }
-  const expenseSumPerSelectedMonth = expensePerSelectedMonth.reduce(
-    (ac, item) => ac + item,
-    0
-  );
   // acumulated for the selected month
   const acumulatedSumPerSelectedMonth =
-    incomeSumPerSelectedMonth - expenseSumPerSelectedMonth;
+    incomeSumPerSelectedMonth[0].income - expenseSumPerSelectedMonth[0].expense;
 
   // plan money per month
 
-  const { passiveIncome, salary, procent } = await Personal.find({
+  const { passiveIncome, salary, procent } = await Personal.findOne({
     owner: _id,
   });
   if (!passiveIncome || !salary || !procent) {
@@ -84,7 +104,7 @@ async function statisticInfo(req, res) {
     expenseSumPerSelectedMonth,
     acumulatedSumPerSelectedMonth,
     planMoneyPerMonth,
-    percentagePlanPerMonth,
+    percentagePlanPerMonth: Math.round(percentagePlanPerMonth),
   });
 }
 
