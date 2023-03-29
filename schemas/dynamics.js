@@ -1,7 +1,8 @@
 const Joi = require('joi');
 
 const dateSchema = Joi.object({
-  date: Joi.date().required(),
+  month: Joi.number(),
+  year: Joi.number(),
 });
 
 module.exports = {

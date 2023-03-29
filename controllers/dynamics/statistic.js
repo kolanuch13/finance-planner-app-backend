@@ -5,10 +5,7 @@ const { Personal } = require('../../models/personal');
 async function statisticInfo(req, res) {
   const { _id } = req.user;
 
-  const { date } = req.body;
-
-  const month = new Date(date).getMonth() + 1;
-  const year = new Date(date).getFullYear();
+  const { month, year } = req.body;
 
   // incomes for the selected month
 
@@ -81,7 +78,8 @@ async function statisticInfo(req, res) {
 
   // acumulated for the selected month
   const acumulatedSumPerSelectedMonth =
-    incomeSumPerSelectedMonth[0].income - expenseSumPerSelectedMonth[0].expense;
+    incomeSumPerSelectedMonth[0]?.income -
+    expenseSumPerSelectedMonth[0]?.expense;
 
   // plan money per month
 
@@ -99,8 +97,8 @@ async function statisticInfo(req, res) {
     (acumulatedSumPerSelectedMonth / planMoneyPerMonth) * 100;
 
   res.json({
-    incomeSumPerSelectedMonth,
-    expenseSumPerSelectedMonth,
+    incomeSumPerSelectedMonth: incomeSumPerSelectedMonth[0]?.income,
+    expenseSumPerSelectedMonth: expenseSumPerSelectedMonth[0]?.expense,
     acumulatedSumPerSelectedMonth,
     planMoneyPerMonth,
     percentagePlanPerMonth: Math.round(percentagePlanPerMonth),

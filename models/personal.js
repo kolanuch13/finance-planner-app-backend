@@ -10,10 +10,11 @@ const personalSchema = new Schema(
     procent: { type: Number, required: true },
     years: { type: Number },
     months: { type: Number },
-    image: {
-      data: Buffer,
-      contentType: String,
-    },
+    // image: {
+    //   data: Buffer,
+    //   contentType: String,
+    // },
+    imageURL: { type: String },
     owner: { type: Schema.Types.ObjectId, ref: 'user' },
   },
   { versionKey: false, timestamps: true }

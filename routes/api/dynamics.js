@@ -23,7 +23,7 @@ router.patch(
   '/flatImage',
   authenticate,
   uploadCloud.single('flatImage'),
-  controllerWrapper(controllers.flatImage)
+  controllerWrapper(controllers.changeFlatImage)
 );
 
 module.exports = router;
