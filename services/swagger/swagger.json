@@ -300,6 +300,15 @@
       "get": {
         "tags": ["Dynamic"],
         "summary": "Get information about customers savings per month for statistic",
+        "requestBody": {
+          "content": {
+            "application/json":{
+              "schema": {
+                "$ref": "#/components/schemas/GetStatisticRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -1212,6 +1221,19 @@
           }
         },
         "description": "Success"
+      },
+      "GetStatisticRequest": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "number",
+            "example": 3
+          },
+          "year": {
+            "type": "number",
+            "example": 2023
+          }
+        }
       },
       "GetStatistic": {
         "type": "object",

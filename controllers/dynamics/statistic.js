@@ -5,7 +5,8 @@ const { Personal } = require('../../models/personal');
 async function statisticInfo(req, res) {
   const { _id } = req.user;
 
-  const { month, year } = req.body;
+  const date = req.body;
+  console.log(date);
 
   // incomes for the selected month
 
@@ -17,12 +18,12 @@ async function statisticInfo(req, res) {
           { categoryType: 'income' },
           {
             $expr: {
-              $eq: [{ $month: '$createdAt' }, month],
+              $eq: [{ $month: '$createdAt' }, date?.month],
             },
           },
           {
             $expr: {
-              $eq: [{ $year: '$createdAt' }, year],
+              $eq: [{ $year: '$createdAt' }, date?.year],
             },
           },
         ],
@@ -51,12 +52,12 @@ async function statisticInfo(req, res) {
           { categoryType: 'expense' },
           {
             $expr: {
-              $eq: [{ $month: '$createdAt' }, month],
+              $eq: [{ $month: '$createdAt' }, date?.month],
             },
           },
           {
             $expr: {
-              $eq: [{ $year: '$createdAt' }, year],
+              $eq: [{ $year: '$createdAt' }, date?.year],
             },
           },
         ],
