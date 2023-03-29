@@ -26,6 +26,10 @@
     {
       "name": "Personal",
       "description": "Personal Plan endpoints"
+    },
+    {
+      "name": "Statistics",
+      "description": "Statistics endpoints"
     }
   ],
   "paths": {
@@ -864,6 +868,115 @@
           }
         ]
       }
+    },
+
+    "/statistic/by-expense": {
+      "get": {
+        "tags": ["Statistics"],
+        "summary": "Get user statistics by expenses",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "month",
+            "required": true,
+            "type": "string",
+            "description": "The month for which user need to get the expenses data. From 01 to 12"
+          },
+          {
+            "in": "query",
+            "name": "year",
+            "required": true,
+            "type": "string",
+            "description": "The year for which user need to get the expenses data. From 2023"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsExpenses"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailable"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/statistic/by-category": {
+      "get": {
+        "tags": ["Statistics"],
+        "summary": "Get user statistics by categories",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "month",
+            "required": true,
+            "type": "string",
+            "description": "The month for which user need to get the expenses data. From 01 to 12"
+          },
+          {
+            "in": "query",
+            "name": "year",
+            "required": true,
+            "type": "string",
+            "description": "The year for which user need to get the expenses data. From 2023"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsCategories"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailable"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailable"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1208,7 +1321,7 @@
         "type": "array",
         "items": {
           "type": "string",
-          "example": "'Products', 'Clothing and footwear', 'Cafes and restaurants', 'Beauty and medicine', 'Health', 'Transport', 'House, Other'"
+          "example": "'Products', 'Clothing and footwear', 'Cafes and restaurants', 'Beauty and medicine', 'Health', 'Transport', 'House', 'Other'"
         },
         "description": "Success"
       },
@@ -1526,6 +1639,63 @@
             "type": "number",
             "description": "Yours salaries",
             "example": 40000
+          }
+        }
+      },
+      "StatisticsExpenses": {
+        "type": "object",
+        "required": ["month", "year"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "transaction id",
+            "example": "641dd9376f93a1a0bdf993db"
+          },
+          "date": {
+            "type": "string",
+            "description": "date of transaction",
+            "example": "2023-03-24T17:00:00.241Z"
+          },
+          "comment": {
+            "type": "string",
+            "description": "description of expense",
+            "example": "Gift for DB"
+          },
+          "sum": {
+            "type": "number",
+            "description": "sum of expense",
+            "example": 100
+          },
+          "categoryType": {
+            "type": "string",
+            "description": "expense",
+            "example": "expense"
+          },
+          "category": {
+            "type": "string",
+            "description": "type of available category expense",
+            "example": "House"
+          },
+          "owner": {
+            "type": "string",
+            "description": "id of user which spend money",
+            "example": "678dd9376f93a1a0bdf99qwe"
+          }
+        }
+      },
+      "StatisticsCategories": {
+        "type": "object",
+        "required": ["month", "year"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "type of available category",
+            "example": "house"
+          },
+          "totalSum": {
+            "type": "number",
+            "description": "total sum by every category",
+            "example": 500
           }
         }
       },
