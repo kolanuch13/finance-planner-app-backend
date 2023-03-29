@@ -17,19 +17,16 @@ const dayLimitInfo = async (req, res) => {
 
   const data = moment().format('YYYY-MM');
   const daysInMonth = moment(data, 'YYYY-MM').daysInMonth();
-
-  const limitDay = (
-    (Number(salary) +
-      Number(passiveIncome) -
-      (Number(salary) + Number(passiveIncome)) * (Number(procent) / 100)) /
-    Number(daysInMonth)
-  ).toFixed(2);
-
   const limitMonth = (
     Number(salary) +
     Number(passiveIncome) -
     (Number(salary) + Number(passiveIncome)) * (Number(procent) / 100)
   ).toFixed(2);
+
+  const limitDay = (
+    limitMonth / Number(daysInMonth)
+  ).toFixed(2);
+
 
   const limitInfo = {
     limitDay,

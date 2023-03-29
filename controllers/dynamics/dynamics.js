@@ -86,11 +86,11 @@ async function chartInfo(req, res) {
   }));
 
   // how much time is left
-
+// ====
   const {
     years: planYears,
     months: planMonths,
-    createdAt,
+    createdAt, cost, footage, imageURL
   } = await Personal.findOne({
     owner: _id,
   });
@@ -109,12 +109,12 @@ async function chartInfo(req, res) {
   if (!user) {
     throw requestError(404);
   }
-
-  const { cost, footage, imageURL } = await Personal.findOne({ owner: _id });
+// ====
+  // const { cost, footage, imageURL } = await Personal.findOne({ owner: _id });
   if (!cost || !footage) {
     throw requestError(404);
   }
-
+// два рази запит од одної бази данних, з нього стягнути всю інфу і одну перевірку
   const acumulatedAsPercentage = (user.balance / cost) * 100;
 
   // acumulated squard meters
@@ -125,14 +125,15 @@ async function chartInfo(req, res) {
   // left acumulate money to one meter
 
   const acumulatedSqMeter = user.balance / costOfOneMeter;
-
+  let leftAcumulatedMoneyToMeter = 0;
+// ****
   const leftAcumulatedSqMeter = acumulatedSqMeter % 1;
-  let leftAcumulatedMoneyToMeter = Math.round(
-    costOfOneMeter * leftAcumulatedSqMeter
-  );
-
   if (leftAcumulatedSqMeter === 0) {
     leftAcumulatedMoneyToMeter = costOfOneMeter;
+  } else {
+    leftAcumulatedMoneyToMeter = Math.round(
+      costOfOneMeter * leftAcumulatedSqMeter
+    );
   }
 
   res.json({
