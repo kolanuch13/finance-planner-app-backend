@@ -142,7 +142,7 @@ async function chartInfo(req, res) {
       months: Math.round(remainingTime.months),
     },
 
-    acumulatedAsPercentage,
+    acumulatedAsPercentage: Math.round(acumulatedAsPercentage),
     acumulatedMoney: user.balance,
     acumulatedSqMeters: acumulatedSqMetersRounded,
     leftAcumulatedMoneyToMeter,
