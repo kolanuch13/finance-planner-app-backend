@@ -12,11 +12,18 @@ const {
 
 router.get('/chart', authenticate, controllerWrapper(controllers.chartInfo));
 
-router.get(
+router.post(
   '/statistic',
   authenticate,
   validateBody(dateSchema),
   controllerWrapper(controllers.statisticInfo)
+);
+
+router.get(
+  '/flatImage',
+  authenticate,
+  // uploadCloud.single('flatImage'),
+  controllerWrapper(controllers.addFlatImage)
 );
 
 router.patch(
