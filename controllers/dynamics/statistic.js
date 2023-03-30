@@ -5,7 +5,8 @@ const { Personal } = require('../../models/personal');
 async function statisticInfo(req, res) {
   const { _id } = req.user;
 
-  const { month, year } = req.body;
+  const date = req.body;
+  console.log(date);
 
   // incomes for the selected month
   const result = await Transaction.aggregate([
@@ -31,6 +32,7 @@ async function statisticInfo(req, res) {
             },
           },
           {
+
             $group: {
               _id: null,
               total: { $sum: { $toDouble: '$sum' } },
@@ -40,6 +42,7 @@ async function statisticInfo(req, res) {
             $project: {
               _id: 0,
               income: '$total',
+
             },
           },
         ],
@@ -63,6 +66,7 @@ async function statisticInfo(req, res) {
             },
           },
           {
+
             $group: {
               _id: null,
               total: { $sum: { $toDouble: '$sum' } },
@@ -72,6 +76,7 @@ async function statisticInfo(req, res) {
             $project: {
               _id: 0,
               expense: '$total',
+
             },
           },
         ],

@@ -1,4 +1,4 @@
-const availableCategories = [
+const availableCategoriesEn = [
   'Products',
   'Clothing and footwear',
   'Cafes and restaurants',
@@ -9,8 +9,19 @@ const availableCategories = [
   'Other',
 ];
 
+const availableCategoriesUa = [
+  'Продукти',
+  'Одяг та взуття',
+  'Кафе та ресторани',
+  'Краса та медицина',
+  "Здоров'я",
+  'Транспорт',
+  'Будинок',
+  'Інші',
+];
+
 const getCategory = async (req, res) => {
-  res.json(availableCategories);
+  res.json({ availableCategoriesEn, availableCategoriesUa });
 };
 
 module.exports = getCategory;

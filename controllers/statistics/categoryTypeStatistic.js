@@ -40,10 +40,22 @@ const categoryTypeStatistic = async (req, res) => {
     throw requestError(401);
   }
 
+  const totalSum = result.reduce((acc, item) => acc + item.totalSum, 0);
+
+  const percentByCategory = result.map(
+    item => (item.percent = (item.totalSum / totalSum).toFixed(2) * 100)
+  );
+
+  const calculatedResult = {
+    result,
+    percentByCategory,
+    totalSum,
+  };
+
   res.json({
     status: 'success',
     code: 200,
-    result,
+    calculatedResult,
   });
 };
 
