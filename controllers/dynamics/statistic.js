@@ -9,78 +9,96 @@ async function statisticInfo(req, res) {
   console.log(date);
 
   // incomes for the selected month
-
-  const incomeSumPerSelectedMonth = await Transaction.aggregate([
+  const result = await Transaction.aggregate([
     {
-      $match: {
-        $and: [
-          { owner: _id },
-          { categoryType: 'income' },
+      $facet: {
+        income: [
           {
-            $expr: {
-              $eq: [{ $month: '$createdAt' }, date?.month],
+            $match: {
+              $and: [
+                { owner: _id },
+                { categoryType: 'income' },
+                {
+                  $expr: {
+                    $eq: [{ $month: '$createdAt' }, month],
+                  },
+                },
+                {
+                  $expr: {
+                    $eq: [{ $year: '$createdAt' }, year],
+                  },
+                },
+              ],
             },
           },
           {
-            $expr: {
-              $eq: [{ $year: '$createdAt' }, date?.year],
+
+            $group: {
+              _id: null,
+              total: { $sum: { $toDouble: '$sum' } },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              income: '$total',
+
+            },
+          },
+        ],
+        expense: [
+          {
+            $match: {
+              $and: [
+                { owner: _id },
+                { categoryType: 'expense' },
+                {
+                  $expr: {
+                    $eq: [{ $month: '$createdAt' }, month],
+                  },
+                },
+                {
+                  $expr: {
+                    $eq: [{ $year: '$createdAt' }, year],
+                  },
+                },
+              ],
+            },
+          },
+          {
+
+            $group: {
+              _id: null,
+              total: { $sum: { $toDouble: '$sum' } },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              expense: '$total',
+
             },
           },
         ],
       },
     },
     {
-      $group: {
-        _id: null,
-        total: { $sum: { $toDouble: '$sum' } },
-      },
-    },
-    {
       $project: {
         _id: 0,
-        income: '$total',
+        income: { $arrayElemAt: ['$income', 0] },
+        expense: { $arrayElemAt: ['$expense', 0] },
       },
     },
   ]);
 
-  // expenses for the selected month
-  const expenseSumPerSelectedMonth = await Transaction.aggregate([
-    {
-      $match: {
-        $and: [
-          { owner: _id },
-          { categoryType: 'expense' },
-          {
-            $expr: {
-              $eq: [{ $month: '$createdAt' }, date?.month],
-            },
-          },
-          {
-            $expr: {
-              $eq: [{ $year: '$createdAt' }, date?.year],
-            },
-          },
-        ],
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        total: { $sum: { $toDouble: '$sum' } },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        expense: '$total',
-      },
-    },
-  ]);
+  const {
+    income: incomeSumPerSelectedMonth,
+    expense: expenseSumPerSelectedMonth,
+  } = result[0];
 
   // acumulated for the selected month
   const acumulatedSumPerSelectedMonth =
-    incomeSumPerSelectedMonth[0]?.income -
-    expenseSumPerSelectedMonth[0]?.expense;
+    incomeSumPerSelectedMonth?.income - expenseSumPerSelectedMonth?.expense;
 
   // plan money per month
 
@@ -98,8 +116,8 @@ async function statisticInfo(req, res) {
     (acumulatedSumPerSelectedMonth / planMoneyPerMonth) * 100;
 
   res.json({
-    incomeSumPerSelectedMonth: incomeSumPerSelectedMonth[0]?.income,
-    expenseSumPerSelectedMonth: expenseSumPerSelectedMonth[0]?.expense,
+    incomeSumPerSelectedMonth: incomeSumPerSelectedMonth?.income,
+    expenseSumPerSelectedMonth: expenseSumPerSelectedMonth?.expense,
     acumulatedSumPerSelectedMonth,
     planMoneyPerMonth,
     percentagePlanPerMonth: Math.round(percentagePlanPerMonth),

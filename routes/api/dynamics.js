@@ -19,6 +19,13 @@ router.post(
   controllerWrapper(controllers.statisticInfo)
 );
 
+router.get(
+  '/flatImage',
+  authenticate,
+  // uploadCloud.single('flatImage'),
+  controllerWrapper(controllers.addFlatImage)
+);
+
 router.patch(
   '/flatImage',
   authenticate,

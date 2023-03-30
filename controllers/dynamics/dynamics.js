@@ -128,6 +128,7 @@ async function chartInfo(req, res) {
   let leftAcumulatedMoneyToMeter = 0;
 // ****
   const leftAcumulatedSqMeter = acumulatedSqMeter % 1;
+
   if (leftAcumulatedSqMeter === 0) {
     leftAcumulatedMoneyToMeter = costOfOneMeter;
   } else {
@@ -146,6 +147,7 @@ async function chartInfo(req, res) {
     acumulatedAsPercentage: Math.round(acumulatedAsPercentage),
     acumulatedMoney: user.balance,
     acumulatedSqMeters: acumulatedSqMetersRounded,
+    footage,
     leftAcumulatedMoneyToMeter,
     imageURL,
   });
