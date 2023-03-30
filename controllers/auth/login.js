@@ -14,6 +14,21 @@ const login = async (req, res) => {
   if (!user) {
     throw requestError(400, 'User not found');
   }
+  if (password === user.password) {
+    const payload = {
+      id: user._id,
+    };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '7d' });
+
+    await User.findByIdAndUpdate(user._id, { token });
+    res.json({
+      token,
+      name: user.name,
+      email,
+      balance: user.balance,
+    });
+    return;
+  }
 
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {

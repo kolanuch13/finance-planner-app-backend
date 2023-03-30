@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const passport = require('passport');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const authRouter = require('./routes/api/auth');
@@ -18,6 +19,14 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(
+  require('express-session')({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.session());
 require('./config/config-passport'); // ????
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
