@@ -1,7 +1,7 @@
 const express = require('express');
 const controllers = require('../../controllers/auth');
 const controllerWrapper = require('../../helpers/controllerWrapper');
-const { validateBody, authenticate } = require('../../middlewares');
+const { validateBody, authenticate, passport } = require('../../middlewares');
 const {
   registerSchema,
   verifyEmailSchema,
@@ -33,4 +33,20 @@ router.post(
 router.post('/logout', authenticate, controllerWrapper(controllers.logout));
 router.patch('/balance', authenticate, controllerWrapper(controllers.balance));
 router.get('/current', authenticate, controllerWrapper(controllers.current));
+
+router.get(
+  '/google',
+  passport.authenticate('google', {
+    scope: ['email', 'profile'],
+  })
+);
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    session: false,
+  }),
+  controllerWrapper(controllers.googleAuth)
+);
+
 module.exports = router;

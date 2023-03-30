@@ -5,6 +5,7 @@ const login = require('./login');
 const logout = require('./logout');
 const balance = require('./balance');
 const current = require('./current');
+const googleAuth = require('./googleAuth');
 
 module.exports = {
   register,
@@ -14,4 +15,5 @@ module.exports = {
   logout,
   balance,
   current,
+  googleAuth,
 };
