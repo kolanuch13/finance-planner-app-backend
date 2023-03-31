@@ -5,6 +5,7 @@ require('dotenv').config();
 const { requestError } = require('../../helpers');
 const { nanoid } = require('nanoid');
 const sendMail = require('../../helpers/sendMail');
+const { emailTemplate } = require('../../helpers');
 // const { BASE_URL } = process.env;
 const { FRONTEND_URL } = process.env;
 
@@ -27,10 +28,10 @@ const register = async (req, res) => {
 
   const mail = {
     to: email,
-    subject: 'Verify email bro:))',
-    html: `<a target="_blank" href="${FRONTEND_URL}/verify/${verificationToken}">Click to verify your email</a>`,
+    subject: 'Finance-planner-app',
+    html: emailTemplate(FRONTEND_URL, verificationToken),
   };
-
+  // `<a target="_blank" href="${FRONTEND_URL}/verify/${verificationToken}">Click to verify your email</a>`
   await sendMail(mail);
 
   res.status(201).json({
