@@ -13,6 +13,14 @@ const availableCategories = [
   'transport',
   'house',
   'other',
+  'продукти',
+  'одяг та взуття',
+  'кафе та ресторани',
+  'краса та медицина',
+  "здоров'я",
+  'транспорт',
+  'будинок',
+  'інші',
 ];
 
 const transactionSchema = new Schema(
