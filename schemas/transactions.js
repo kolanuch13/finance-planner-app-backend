@@ -11,7 +11,15 @@ const availableCategories = [
   'transport',
   'house',
   'other',
-]; // були б в одному файлі схеми - було б краще, а так мушу продублювати. Прийдеться винести цей масив із цього файлу та файлу transactions із schema в якусь окрему папку, щоб не повторюватись
+  'продукти',
+  'одяг та взуття',
+  'кафе та ресторани',
+  'краса та медицина',
+  'здоров`я',
+  'транспорт',
+  'будинок',
+  'інші',
+];
 
 const addTransactions = Joi.object({
   category: Joi.string().valid(...availableCategories),
