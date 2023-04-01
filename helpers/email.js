@@ -163,7 +163,7 @@ const emailTemplate = (url, token) => {
 															<td class="pad">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; mso-line-height-alt: 16.8px; color: #40507a; line-height: 1.2;">
-																		<p style="margin: 0; font-size: 14px; mso-line-height-alt: 16.8px;">Didn’t request a password reset? You can ignore this message.</p>
+																		<p style="margin: 0; font-size: 14px; mso-line-height-alt: 16.8px;">Didn’t do a registration in Finance-planner-app? You can ignore this message.</p>
 																	</div>
 																</div>
 															</td>

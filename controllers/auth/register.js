@@ -12,7 +12,6 @@ const { FRONTEND_URL } = process.env;
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   const user = await User.findOne({ email });
-  console.log(user);
   if (user) {
     throw requestError(409, 'Email in use');
   }
@@ -31,7 +30,7 @@ const register = async (req, res) => {
     subject: 'Finance-planner-app',
     html: emailTemplate(FRONTEND_URL, verificationToken),
   };
-  // `<a target="_blank" href="${FRONTEND_URL}/verify/${verificationToken}">Click to verify your email</a>`
+
   await sendMail(mail);
 
   res.status(201).json({
