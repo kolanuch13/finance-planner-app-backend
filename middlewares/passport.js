@@ -32,10 +32,10 @@ const googleCallback = async (
       email: profile.email,
       password: hashPassword,
       name: profile.displayName,
-      verificationToken: ' ',
+      verificationToken: 'verified_by_fb',
       verify: true,
     });
-    done(null, { email: profile.email, password: plainPassword });
+    done(null, { email: profile.email, password: hashPassword });
   } catch (error) {
     done(error, false);
   }
