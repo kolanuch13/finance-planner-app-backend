@@ -6,20 +6,6 @@ const { Transaction } = require('../../models/transactions');
 const { Personal } = require('../../models/personal');
 
 const { requestError } = require('../../helpers');
-const monthsName = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
 
 async function chartInfo(req, res) {
   const { _id } = req.user;
@@ -78,19 +64,15 @@ async function chartInfo(req, res) {
     },
   ]);
 
-  const lastYearInfo = data.map(i => ({
-    month: monthsName[parseInt(i.month) - 1],
-    expense: i.expense,
-    income: i.income,
-    acumulated: i.income - i.expense,
-  }));
-
   // how much time is left
-// ====
+  // ====
   const {
     years: planYears,
     months: planMonths,
-    createdAt, cost, footage, imageURL
+    createdAt,
+    cost,
+    footage,
+    imageURL,
   } = await Personal.findOne({
     owner: _id,
   });
@@ -109,12 +91,12 @@ async function chartInfo(req, res) {
   if (!user) {
     throw requestError(404);
   }
-// ====
+  // ====
   // const { cost, footage, imageURL } = await Personal.findOne({ owner: _id });
   if (!cost || !footage) {
     throw requestError(404);
   }
-// два рази запит од одної бази данних, з нього стягнути всю інфу і одну перевірку
+  // два рази запит од одної бази данних, з нього стягнути всю інфу і одну перевірку
   const acumulatedAsPercentage = (user.balance / cost) * 100;
 
   // acumulated squard meters
@@ -126,7 +108,7 @@ async function chartInfo(req, res) {
 
   const acumulatedSqMeter = user.balance / costOfOneMeter;
   let leftAcumulatedMoneyToMeter = 0;
-// ****
+  // ****
   const leftAcumulatedSqMeter = acumulatedSqMeter % 1;
 
   if (leftAcumulatedSqMeter === 0) {
@@ -138,7 +120,7 @@ async function chartInfo(req, res) {
   }
 
   res.json({
-    lastYearInfo,
+    data,
     timeIsLeft: {
       years: Math.round(remainingTime.years),
       months: Math.round(remainingTime.months),
