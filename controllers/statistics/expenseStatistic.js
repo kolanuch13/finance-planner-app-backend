@@ -4,7 +4,8 @@ const moment = require('moment');
 
 const categoryStatistic = async (req, res) => {
   const { _id } = req.user;
-  const { month, year } = req.query;
+  const { month, year, page = 1, limit = 6 } = req.query;
+  const skip = (page - 1) * limit;
 
   const startPoint = moment()
     .year(year)
@@ -17,7 +18,7 @@ const categoryStatistic = async (req, res) => {
     .endOf('month')
     .format();
 
-  const result = await Transaction.aggregate([
+  const totalTransactions = await Transaction.aggregate([
     {
       $match: {
         owner: _id,
@@ -30,6 +31,21 @@ const categoryStatistic = async (req, res) => {
     },
   ]);
 
+  const result = await Transaction.aggregate([
+    {
+      $match: {
+        owner: _id,
+        categoryType: 'expense',
+        date: {
+          $gte: startPoint,
+          $lt: endPoint,
+        },
+      },
+    },
+    { $skip: skip },
+    { $limit: Number(limit) },
+  ]);
+
   if (!result) {
     throw requestError(401);
   }
@@ -37,7 +53,10 @@ const categoryStatistic = async (req, res) => {
   res.json({
     status: 'success',
     code: 200,
-    result,
+    result: {
+      transactions: result,
+      totalTransactions: totalTransactions.length,
+    },
   });
 };
 
