@@ -1,27 +1,35 @@
-const Joi = require("joi");
+const Joi = require('joi');
+
+const category = ['expense', 'income'];
 
 const availableCategories = [
-  "products",
-  "clothing and footwear",
-  "cafes and restaurants",
-  "beauty and medicine",
-  "health",
-  "transport",
-  "house",
-  "other",
-]; // були б в одному файлі схеми - було б краще, а так мушу продублювати. Прийдеться винести цей масив із цього файлу та файлу transactions із schema в якусь окрему папку, щоб не повторюватись
+  'products',
+  'clothing and footwear',
+  'cafes and restaurants',
+  'beauty and medicine',
+  'health',
+  'transport',
+  'house',
+  'other',
+  'продукти',
+  'одяг та взуття',
+  'кафе та ресторани',
+  'краса та медицина',
+  "здоров'я",
+  'транспорт',
+  'будинок',
+  'інші',
+];
 
-const addExpense = Joi.object({
-  category: Joi.string()
-    .valid(...availableCategories)
+const addTransactions = Joi.object({
+  category: Joi.string().valid(...availableCategories),
+  date: Joi.string(),
+  comment: Joi.string().max(80),
+  categoryType: Joi.string()
+    .valid(...category)
     .required(),
-  comment: Joi.string().required(),
-  sum: Joi.string().required(),
+  sum: Joi.number().required(),
 });
 // стосовно даних з from account - я думаю, що цю суму потрібно забирати, тому ми передаємо тільки тип категорії, коментар та суму
 
-const schemas = {
-  addExpense,
-};
-
-module.exports = { schemas };
+module.exports = { addTransactions };
