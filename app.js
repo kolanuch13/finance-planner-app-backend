@@ -27,7 +27,6 @@ app.use(
   })
 );
 app.use(passport.session());
-require('./config/config-passport'); // ????
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/auth', authRouter);
