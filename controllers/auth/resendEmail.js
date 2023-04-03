@@ -6,9 +6,7 @@ const { BASE_URL } = process.env;
 
 const resendEmail = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
   const user = await User.findOne({ email });
-  console.log(user);
 
   if (!user || user.verify) {
     throw requestError(404);

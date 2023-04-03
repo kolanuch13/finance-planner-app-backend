@@ -25,6 +25,6 @@ router.post(
 
 router.get('/', authenticate, controllerWrapper(Personal.getPersonalPlan));
 
-router.put('/', authenticate, controllerWrapper(Personal.updatePersonalPlan));
+router.put('/', authenticate, validateBody(personalSchema), controllerWrapper(Personal.updatePersonalPlan));
 
 module.exports = router;

@@ -4,16 +4,15 @@ const moment = require('moment');
 
 const dayLimitInfo = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await Personal.find(
+  const result = await Personal.findOne(
     { owner },
     'salary passiveIncome procent'
   ).populate('owner', 'email');
-
   if (!result) {
-    throw requestError(401);
+    throw requestError(500);
   }
 
-  const { salary, passiveIncome, procent } = result[0];
+  const { salary, passiveIncome, procent } = result;
 
   const data = moment().format('YYYY-MM');
   const daysInMonth = moment(data, 'YYYY-MM').daysInMonth();

@@ -9,16 +9,15 @@ const { requestError } = require('../../helpers');
 
 async function chartInfo(req, res) {
   const { _id } = req.user;
-
   // last year information
-
+  
   const startDate = DateTime.now()
-    .setZone('America/New_York')
-    .minus({ years: 1 })
-    .toISO();
-
+  .setZone('America/New_York')
+  .minus({ years: 1 })
+  .toISO();
+  
   const startPoint = new Date(moment(startDate.slice(0, 7)).startOf('month'));
-
+  
   const data = await Transaction.aggregate([
     {
       $match: {
@@ -64,6 +63,9 @@ async function chartInfo(req, res) {
     },
   ]);
 
+  if(!data) {
+    throw requestError(500)
+  }
   // how much time is left
   // ====
   const {
@@ -119,7 +121,7 @@ async function chartInfo(req, res) {
     );
   }
 
-  res.json({
+  res.status(200).json({
     data,
     timeIsLeft: {
       years: Math.round(remainingTime.years),

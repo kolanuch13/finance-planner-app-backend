@@ -2,7 +2,6 @@ const { User } = require('../../models/users');
 const { requestError } = require('../../helpers');
 
 const verify = async (req, res) => {
-  console.log(123);
   const { verificationToken } = req.params;
   const user = await User.findOne({ verificationToken });
   if (!user) {
