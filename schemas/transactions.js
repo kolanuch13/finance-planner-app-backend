@@ -24,7 +24,7 @@ const availableCategories = [
 const addTransactions = Joi.object({
   category: Joi.string().valid(...availableCategories),
   date: Joi.string(),
-  comment: Joi.string(),
+  comment: Joi.string().max(80),
   categoryType: Joi.string()
     .valid(...category)
     .required(),

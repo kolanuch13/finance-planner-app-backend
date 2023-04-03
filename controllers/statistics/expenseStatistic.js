@@ -42,6 +42,7 @@ const categoryStatistic = async (req, res) => {
         },
       },
     },
+    { $sort: { date: -1 } },
     { $skip: skip },
     { $limit: Number(limit) },
   ]);
