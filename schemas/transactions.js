@@ -30,6 +30,5 @@ const addTransactions = Joi.object({
     .required(),
   sum: Joi.number().required(),
 });
-// стосовно даних з from account - я думаю, що цю суму потрібно забирати, тому ми передаємо тільки тип категорії, коментар та суму
 
 module.exports = { addTransactions };

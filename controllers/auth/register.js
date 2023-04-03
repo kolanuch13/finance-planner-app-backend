@@ -6,7 +6,6 @@ const { requestError } = require('../../helpers');
 const { nanoid } = require('nanoid');
 const sendMail = require('../../helpers/sendMail');
 const { emailTemplate } = require('../../helpers');
-// const { BASE_URL } = process.env;
 const { FRONTEND_URL } = process.env;
 
 const register = async (req, res) => {

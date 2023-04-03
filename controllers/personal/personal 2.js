@@ -9,10 +9,6 @@ const personalPlan = async (req, res) => {
     savings,
     cost,
     procent,
-    // footage,
-    // year,
-    // month,
-    // owner,
   } = await req.body;
 
   const numberOfMonths =
@@ -37,8 +33,6 @@ const updatePersonalPlan = async (req, res) => {
     cost,
     procent,
     footage,
-    // year,
-    // month,
     owner,
   } = req.body;
 
