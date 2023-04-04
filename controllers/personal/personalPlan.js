@@ -8,9 +8,15 @@ const personalPlan = async (req, res) => {
     (cost - savings) / ((salary + passiveIncome) * (procent / 100));
   const totalMonths = Math.floor(numberOfMonths);
 
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
+  let years = Math.floor(totalMonths / 12);
+  let months = totalMonths % 12;
 
+  if (years === 0 || isNaN(years)) {
+    years = 0;
+  }
+  if (months === 0 || isNaN(months)) {
+    months = 0;
+  }
   const result = {
     years: years,
     months: months,

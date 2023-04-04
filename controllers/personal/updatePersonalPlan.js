@@ -1,4 +1,5 @@
-  const { Personal } = require('../../models/personal');
+const { requestError } = require('../../helpers');
+const { Personal } = require('../../models/personal');
 
 const updatePersonalPlan = async (req, res) => {
   const {
@@ -26,6 +27,10 @@ const updatePersonalPlan = async (req, res) => {
     },
     { new: true }
   );
+
+  if (!result) {
+    throw requestError(401, 'Personal plan not yet created');
+  }
   res.json(result);
 };
 
