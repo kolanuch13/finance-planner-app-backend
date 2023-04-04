@@ -1,4 +1,4 @@
-const { Personal } = require('../../models/personal');
+  const { Personal } = require('../../models/personal');
 
 const updatePersonalPlan = async (req, res) => {
   const {
