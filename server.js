@@ -10,7 +10,9 @@ mongoose
   .then(() => {
     console.log('Database connection successful');
     app.listen(PORT, () => {
-      console.log('Server running. Use our API on port: ', PORT);
+      console.log(
+        'Server running. Url is https://finance-planner-app-api.onrender.com'
+      );
     });
   })
   .catch(error => {
